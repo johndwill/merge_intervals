@@ -10,7 +10,8 @@ func main() {
 	// intervals := [][]int{{1, 3}, {2, 6}, {8, 10}, {15, 18}}
 
 	//intervals := [][]int{{1, 4}, {4, 5}}
-	intervals := [][]int{{1, 3}, {2, 6}, {8, 10}, {15, 18}}
+	// intervals := [][]int{{1, 3}, {2, 6}, {8, 10}, {15, 18}}
+	intervals := [][]int{{15, 18}, {2, 6}, {8, 10}, {1, 3}}
 
 	output := merge(intervals)
 	fmt.Println(output)
@@ -30,29 +31,24 @@ func merge(intervals [][]int) [][]int {
 
 	// initialize the output slice with the first interval
 	output := [][]int{intervals[0]}
+	curInterval := output[0]
 
 	// loop through the rest of the intervals
 	for i := 1; i < len(intervals); i++ {
-		// get the last interval we have in the output slice
-		curInterval := output[len(output)-1]
 
 		thisInterval := intervals[i]
 
-		// if thisInterval starts before the curInterval's start, reset the curInterval's start
-		if thisInterval[0] < curInterval[0] && thisInterval[1] >= curInterval[0] {
-			curInterval[0] = thisInterval[0]
-			continue
-		}
+		// because the intervals are sorted by the start, we don't have to
+		// worry about the start value being lower than the curInterval's start
+
 		// If thisInterval overlaps the end of the curInterval, adjust the end
-		if thisInterval[0] <= curInterval[1] && thisInterval[1] > curInterval[0] {
-			if thisInterval[1] > curInterval[1] {
-				curInterval[1] = thisInterval[1]
-			}
-			continue
-		}
-		// finally if thisInterval is beyond the curInterval, add it to the output
-		if thisInterval[0] > curInterval[1] {
+		if thisInterval[0] <= curInterval[1] && thisInterval[1] > curInterval[1] {
+			curInterval[1] = thisInterval[1]
+		} else if thisInterval[0] > curInterval[1] {
+			// finally if thisInterval is beyond the curInterval, add it to the output
 			output = append(output, thisInterval)
+			// get the last interval we have in the output slice
+			curInterval = output[len(output)-1]
 		}
 	}
 

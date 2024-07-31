@@ -32,7 +32,7 @@ func TestIntervals2(t *testing.T) {
 }
 
 func TestIntervals3(t *testing.T) {
-	intervals := [][]int{{1, 3}, {2, 6}, {8, 10}, {15, 18}}
+	intervals := [][]int{{15, 18}, {2, 6}, {8, 10}, {1, 3}}
 	expected := [][]int{{1, 6}, {8, 10}, {15, 18}}
 
 	output := merge(intervals)
